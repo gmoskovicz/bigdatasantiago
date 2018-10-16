@@ -41,17 +41,128 @@ https://docs.google.com/presentation/d/18yq1IWDAUTiRm8mdd9Vydv1jWrJ7X4k7HPeYCQ38
 ### [4] Creating the pipeline to parse the logs
 
 1. Go to Kibana and Devtools
-2. Start with the following and create the pipeline
+2. Start with the following and create the pipeline, checkoug https://github.com/elastic/elasticsearch/blob/master/libs/grok/src/main/resources/patterns/grok-patterns#L94
 
 ```
- 
 POST _ingest/pipeline/_simulate
 {
- "pipeline": {},
- "docs": [
-   {
-     "station": "83.149.9.216 - - [26/Aug/2014:21:13:42 +0000] "GET /presentations/logstash-monitorama-2013/images/sad-medic.png HTTP/1.1" 200 430406 "http://semicomplete.com/presentations/logstash-monitorama-2013/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.77 Safari/537.36""
-   }
- ]
+  "pipeline": {
+    "description": "Parsing the logs",
+    "processors": [
+    {
+      "grok": {
+        "field": "message",
+        "patterns": [
+          ""
+        ]
+      }
+    }
+  ]
+  },
+  "docs": [
+    {
+      "_source": {
+      "message": {
+        "station": """     
+        83.149.9.216 - - [26/Aug/2014:21:13:42 +0000] "GET /presentations/logstash-monitorama-2013/images/sad-medic.png HTTP/1.1" 200 430406 "http://semicomplete.com/presentations/logstash-monitorama-2013/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.77 Safari/537.36"
+        """
+      }
+    }}
+  ]
 }
 ```
+
+You should end up with something like the following:
+
+```
+POST _ingest/pipeline/_simulate
+{
+  "pipeline": {
+    "description": "Parsing the logs",
+    "processors": [
+      {
+        "grok": {
+          "field": "message",
+          "patterns": [
+            "%{COMMONAPACHELOG}"
+          ]
+        }
+      },
+      {
+        "remove": {
+          "field": "message"
+        }
+      },
+      {
+        "convert": {
+          "field": "response",
+          "type": "integer"
+        }
+      },
+      {
+        "convert": {
+          "field": "bytes",
+          "type": "long"
+        }
+      }
+    ]
+  },
+  "docs": [
+    {
+      "_source": {
+        "message": """        
+        83.149.9.216 - - [26/Aug/2014:21:13:42 +0000] "GET /presentations/logstash-monitorama-2013/images/sad-medic.png HTTP/1.1" 200 430406 "http://semicomplete.com/presentations/logstash-monitorama-2013/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.77 Safari/537.36"
+        """
+      }
+    }
+  ]
+}
+```
+
+### [5] Add the pipeline and configure it
+
+1. Add the pipeline and configure it in `filebeat.yml`
+
+```
+PUT _ingest/pipeline/parse_logs
+{
+  "description": "Parsing the logs",
+  "processors": [
+    {
+      "grok": {
+        "field": "message",
+        "patterns": [
+          "%{COMMONAPACHELOG}"
+        ]
+      }
+    },
+    {
+      "remove": {
+        "field": "message"
+      }
+    },
+    {
+      "convert": {
+        "field": "response",
+        "type": "integer"
+      }
+    },
+    {
+      "convert": {
+        "field": "bytes",
+        "type": "long"
+      }
+    }
+  ]
+}
+```
+
+Then add `pipeline: parse_logs` under `output.elasticsearch` in `filebeat.yml`
+
+### [6] Delete data and start from scratch
+
+1. `DELETE filebeat-*` in Devtools
+2. Delete the `registry` file under `data` int he filebeat folder
+3. Start filebeat again
+4. Go to Management>Index Templates and refresh the index template in Kibana
+
