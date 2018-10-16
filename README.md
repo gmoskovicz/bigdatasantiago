@@ -181,4 +181,6 @@ Then add `pipeline: parse_logs` under `output.elasticsearch` in `filebeat.yml`
 
 ### [7] Create dashboard to visualize the logs
 
+Create 4 visualizations and a dashboard
 
+![image](https://github.com/gmoskovicz/bigdatasantiago/blob/master/dashboard.png)
