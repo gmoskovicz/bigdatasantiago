@@ -52,15 +52,13 @@ https://docs.google.com/presentation/d/18yq1IWDAUTiRm8mdd9Vydv1jWrJ7X4k7HPeYCQ38
 
 ### [3] - Load the data logs
 
-1. Go to https://data.ny.gov/Transportation/NYC-Transit-Subway-Entrance-And-Exit-Data/i9wp-a4ja
-2. Export > CSV
-3. Inspect the dataset
-4. Download filebeat: https://www.elastic.co/downloads/beats/filebeat
-5. Download the following log: https://github.com/gmoskovicz/bigdatasantiago/blob/master/logs.gz
-6. Modify `filebeat.yml` to read from the logs and enable it (comment out `enabled: false`)
-7. Modify `output.elasticsearch.hosts` to send to Elastic Cloud, and setup username and password
-8. Run filebeat
-9. Open kibana and configure index pattern
+1. Download filebeat: https://www.elastic.co/downloads/beats/filebeat
+2. Download the following log: https://github.com/gmoskovicz/bigdatasantiago/blob/master/logs.gz
+3. INspect the data set.
+4. Modify `filebeat.yml` to read from the logs and enable it (comment out `enabled: false`)
+5. Modify `output.elasticsearch.hosts` to send to Elastic Cloud, and setup username and password
+6. Run filebeat
+7. Open kibana and configure index pattern
 
 <br/>
 <br/>
