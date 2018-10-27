@@ -32,18 +32,18 @@ https://docs.google.com/presentation/d/18yq1IWDAUTiRm8mdd9Vydv1jWrJ7X4k7HPeYCQ38
 
 ### [1] - Create an Elastic Cloud account
 
-1. Login to https://cloud.elastic.co/login
-2. Click in Sign up now
-3. Lets create a Deployment
+1. Check the elastic folder
+2. Untar everything
+3. Open a command line (cmd)
+4. Go to Elasticsearch
+5. Set `set "JAVA_HOME=C:\Program Files\Java\jdk1.8.0_161"`
+6. Start  `bin\elasticsearch`
+7. Do the same in Kibana, go to Kibana
+8. Start  `bin\kibana`
 
-![image](https://github.com/gmoskovicz/bigdatasantiago/blob/master/Screen%20Shot%202018-10-16%20at%201.43.38%20PM.png)
+### [2] - Inspect  Kibana
 
-<br/>
-<br/>
-
-### [2] - Inspect the Elastic Cloud UI and open Kibana
-
-1. Check what you have in your Elastic Cloud cluster
+1. Check what you have in your Elasticsearch cluster
 2. Find the Elasticsearch link.
 3. Find the Kibana link and login into Kibana.
 
@@ -52,9 +52,9 @@ https://docs.google.com/presentation/d/18yq1IWDAUTiRm8mdd9Vydv1jWrJ7X4k7HPeYCQ38
 
 ### [3] - Load the data logs
 
-1. Download filebeat: https://www.elastic.co/downloads/beats/filebeat
+1. Go to Filebeat
 2. Download the following log: https://github.com/gmoskovicz/bigdatasantiago/blob/master/logs.gz
-3. INspect the data set.
+3. Inspect the data set.
 4. Modify `filebeat.yml` to read from the logs and enable it (comment out `enabled: false`)
 5. Modify `output.elasticsearch.hosts` to send to Elastic Cloud, and setup username and password
 6. Run filebeat
