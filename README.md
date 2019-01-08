@@ -30,7 +30,7 @@ https://docs.google.com/presentation/d/18yq1IWDAUTiRm8mdd9Vydv1jWrJ7X4k7HPeYCQ38
 <br/>
 <br/>
 
-### [1] - Create an Elastic Cloud account
+### [1] - Create an Elasticsearch instance in windows
 
 1. Check the elastic folder
 2. Untar everything
